@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư viện ảnh tương tác</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f2f2f2;
+            text-align:center;
+        }
+
+        h1{
+            color:#333;
+        }
+
+        #image{
+            width:600px;
+            height:400px;
+            margin:20px auto;
+            border:3px solid #333;
+            background-size:cover;
+            background-position:center;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-size:30px;
+            font-weight:bold;
+            background-color:#555;
+        }
+
+        .gallery{
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        .gallery img{
+            width:180px;
+            height:120px;
+            border:3px solid #333;
+            cursor:pointer;
+        }
+
+        .gallery img:focus{
+            outline:4px solid blue;
+        }
+    </style>
+</head>
+
+<body onload="pageLoaded()">
+
+<h1>Thư viện ảnh tương tác</h1>
+
+<div id="image">
+    Di chuột hoặc nhấn Tab vào ảnh
+</div>
+
+<div class="gallery">
+    <img src="https://picsum.photos/id/1015/300/200"
+         alt="Cảnh núi"
+         tabindex="0">
+
+    <img src="https://picsum.photos/id/1025/300/200"
+         alt="Chú chó"
+         tabindex="0">
+
+    <img src="https://picsum.photos/id/1043/300/200"
+         alt="Bãi biển"
+         tabindex="0">
+
+    <img src="https://picsum.photos/id/1069/300/200"
+         alt="Rừng cây"
+         tabindex="0">
+</div>
+
+<script>
+
+function upDate(previewPic){
+    console.log("Mouseover hoặc Focus");
+
+    let imageDiv = document.getElementById("image");
+
+    imageDiv.style.backgroundImage = "url('" + previewPic.src + "')";
+    imageDiv.innerHTML = previewPic.alt;
+}
+
+function undo(){
+    console.log("Mouseleave hoặc Blur");
+
+    let imageDiv = document.getElementById("image");
+
+    imageDiv.style.backgroundImage = "";
+    imageDiv.innerHTML = "Di chuột hoặc nhấn Tab vào ảnh";
+}
+
+function pageLoaded(){
+    console.log("Trang đã tải.");
+
+    let images = document.querySelectorAll(".gallery img");
+
+    for(let i=0;i<images.length;i++){
+
+        console.log("Ảnh " + (i+1) + ": " + images[i].alt);
+
+        images[i].setAttribute("tabindex","0");
+
+        images[i].addEventListener("mouseover", function(){
+            upDate(this);
+        });
+
+        images[i].addEventListener("mouseleave", function(){
+            undo();
+        });
+
+        images[i].addEventListener("focus", function(){
+            upDate(this);
+        });
+
+        images[i].addEventListener("blur", function(){
+            undo();
+        });
+    }
+}
+
+</script>
+
+</body>
+</html>
